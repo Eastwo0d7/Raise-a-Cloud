@@ -10,74 +10,75 @@ $(document).ready(function(){
     //This the input word 
     var queryWord = "";
 
-
     // This is the option user selects from the dropdown    
     var queryOption = "";
 
-    // function getWords(url,callback){
-        $.ajax({
-            queryUrl,
-            method : "GET",
-            headers : {"X-Mashape-Key":apiKey},
-            success: function(data,status,xhr){
-                console.log('success');
-                callback(data);
+    function wordCloudify(wordsArray){
+        // debugger;
+        console.log(wordsArray);
+        words=[];
+        console.log(typeof wordsArray);
+        // console.log(wordsArray[0]);
+        for (i=0;i<wordsArray.length;i++){
+            if (wordsArray[i].definition){
+                words.push(wordsArray[i].definition);
+            } else {
+                words.push(wordsArray[i]);
             }
-        }).done (function(response){
+            // console.log(wordsArray[i]);
             
-            // assign the array of words to a variable.
-            if(queryOption === "rhymes"){
-                // words for rhymes option has a neseted  object as all
-                results = response[queryOption].all;              
+        }
+        // console.log(words);
+
+        console.log('words',words);
+        var cloudObject = {
+            type: 'wordcloud',
+            options: {
+                minLength: 4,
+                ignore: ['establish','this'],
+                rotate: true,
+                words: []
             }
-            else {
-                results = response[queryOption];
+        };
+        function returnRandomNum(){
+            var randomNum = (Math.random() * 200) + 1;
+            return randomNum.toString();
+        }
+        for (i=0;i<words.length;i++){
+            word = {
+                text: words[i],
+                count: returnRandomNum()
             }
+            // console.log(cloudObject.options.words);
+            cloudObject.options.words.push(word);
+        }
+        zingchart.render({ 
+            id: 'wordCloud', 
+            data: cloudObject, 
+            height: 600, 
+            width: '100%' 
         });
-
-    // }
-
-    $("#submit").on("click",function(event){
-        // var queryUrl;
+    }
+    $(document).on("click","#submit",function(event){
         event.preventDefault();
         queryWord = $("#searchTerm").val().trim();
         queryOption = $("#wordOption").find('option:selected').data("value");
-        queryURL = "https://wordsapiv1.p.mashape.com/words/"+ queryWord + "/" + queryOption ;
-        getWords(queryUrl,function(arr){
-            console.log(arr);
-        });      
-    });
-//....................................................................................................................                      
-            // results - the array for the word cloud
-//...............................................................................................................
-
-    ///............................................................................................................
-    var cloudObject = {
-        type: 'wordcloud',
-        options: {
-            minLength: 4,
-            ignore: ['establish','this'],
-            rotate: true,
-            words: []
-        }
-    };
-    function returnRandomNum(){
-        var randomNum = (Math.random() * 200) + 1;
-        return randomNum.toString();
-    }
-    for (i=0;i<results.length;i++){
-        word = {
-            text: results[i],
-            count: returnRandomNum()
-        }
-        console.log(cloudObject.options.words);
-        cloudObject.options.words.push(word);
-    }
-        
-    zingchart.render({ 
-        id: 'wordCloud', 
-        data: cloudObject, 
-        height: 800, 
-        width: '100%' 
+        queryURL = "https://wordsapiv1.p.mashape.com/words/"+ queryWord + "/" + queryOption ;        
+        $.ajax({
+            url : queryURL,
+            method : "GET",
+            headers : {"X-Mashape-Key":apiKey}
+        }).done (function(response){
+            // assign the array of words to a variable.
+            if(queryOption === "rhymes"){
+                // words for rhymes option has a neseted  object as all
+                results = response[queryOption].all;  
+                wordCloudify(results);            
+            }
+            else {
+                results = response[queryOption];
+                wordCloudify(results);
+            }
+        });
     });
 });
