@@ -1,4 +1,6 @@
-$(function(){
+$(document).ready(function(){
+    
+    // ..................................Code by Indima for words api..............................................
 
     var apiKey = "f631ef1902msh9f09d2e297d69a3p115d8ajsnfac73288f5c5";
 
@@ -41,20 +43,47 @@ $(function(){
             // results - the array for the word could
 //...............................................................................................................
 
-//******************************************Test code*************************************************************** */
-
-        //     //get array length
-        //     var length = results.length;
-
-        //    // read response
-        //     for (var i = 0; i < length; i++){
-        //         console.log(results[i]);
-        //         //
-        //     }
-        });
-        
-       
-    });
-
-
-})
+    ///............................................................................................................
+    var cloudObject = {
+        type: 'wordcloud',
+        options: {
+            minLength: 4,
+            ignore: ['establish','this'],
+            
+            rotate: true,
+            words: [
+                {
+                    text:"time",
+                    count:20
+                },
+                {
+                    "text":"to",
+                    "count":80
+                },
+                {
+                    "text":"get",
+                    "count":30
+                },
+                {
+                    "text":"this",
+                    "count":60
+                },
+                {
+                    "text":"started",
+                    "count":10
+                },
+                {
+                    "text":"party",
+                    "count":120
+                }
+            ]
+        }
+        };
+           
+          zingchart.render({ 
+              id: 'wordCloud', 
+              data: cloudObject, 
+              height: 600, 
+              width: '100%' 
+          });
+});
