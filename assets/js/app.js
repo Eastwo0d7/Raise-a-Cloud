@@ -37,11 +37,13 @@ $(document).ready(function(){
                 minLength: 4,
                 ignore: ['establish','this'],
                 rotate: true,
-                words: []
+                words: [],
+                minFontSize: 20
             }
         };
         function returnRandomNum(){
-            var randomNum = (Math.random() * 200) + 1;
+            var randomNum = Math.floor((Math.random() * 200) + 1);
+            console.log(randomNum);
             return randomNum.toString();
         }
         for (i=0;i<words.length;i++){
@@ -49,18 +51,27 @@ $(document).ready(function(){
                 text: words[i],
                 count: returnRandomNum()
             }
-            // console.log(cloudObject.options.words);
             cloudObject.options.words.push(word);
         }
+        console.log(cloudObject.options.words);
         zingchart.render({ 
             id: 'wordCloud', 
             data: cloudObject, 
-            height: 600, 
+            height: 700, 
             width: '100%' 
         });
     }
+// Check to see if user has signed up:
+    if (localStorage.getItem('wordCloudUser')){
+        console.log('user exists');
+        $('#username-field').hide();
+    } else {
+        console.log('user not found');
+    }
     $(document).on("click","#submit",function(event){
         event.preventDefault();
+        userName = $('#username').val().trim();
+        localStorage.setItem('wordCloudUser',userName);
         queryWord = $("#searchTerm").val().trim();
         queryOption = $("#wordOption").find('option:selected').data("value");
         queryURL = "https://wordsapiv1.p.mashape.com/words/"+ queryWord + "/" + queryOption ;        

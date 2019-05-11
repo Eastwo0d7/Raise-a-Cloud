@@ -16,13 +16,17 @@
         <div class="row justify-content-center">
             <div class="col">
                 <form id="myForm">
+                    <div class ="form-group" id="username-field">
+                        <label for="username">Username</label>
+                        <input type='text' class='form-control' id="username" name="username" required></input>
+                    </div>
                     <div class="form-group">
                         <label for="searchTerm">Search for a word!</label>
-                        <input type="text" class="form-control" id="searchTerm" placeholder="For example: hatchback">
+                        <input type="text" class="form-control" id="searchTerm" name="searchTerm" placeholder="For example: hatchback">
                     </div>
                     <div class="form-group">
                         <label for="wordOption">Select an option:</label>
-                        <select class="form-control" id="wordOption">
+                        <select class="form-control" id="wordOption" name="wordOption">
                         <option data-value = "definitions" >Definition</option>
                         <option data-value = "synonyms">Synonyms</option>
                         <option data-value = "antonyms">Antonyms</option>
