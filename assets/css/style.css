@@ -12,3 +12,6 @@ html, body {
 .zc-ref {
 	display:none;
 }
+#wordCloud-license-text {
+    display: none;
+}
