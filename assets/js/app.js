@@ -9,15 +9,15 @@ $(document).ready(function(){
             rotate: true,
             words: [
                 {
-                    "text":"time",
-                    "count":20
+                    text:"time",
+                    count:20
                 },
                 {
                     "text":"to",
                     "count":80
                 },
                 {
-                    "text":"light",
+                    "text":"get",
                     "count":30
                 },
                 {
@@ -25,15 +25,11 @@ $(document).ready(function(){
                     "count":60
                 },
                 {
-                    "text":"shit",
+                    "text":"started",
                     "count":10
                 },
                 {
-                    "text":"on",
-                    "count":90
-                }
-                ,{
-                    "text":"fire",
+                    "text":"party",
                     "count":120
                 }
             ]
@@ -43,7 +39,7 @@ $(document).ready(function(){
           zingchart.render({ 
               id: 'wordCloud', 
               data: cloudObject, 
-              height: 400, 
+              height: 600, 
               width: '100%' 
           });
 });
