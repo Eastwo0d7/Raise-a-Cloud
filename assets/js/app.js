@@ -35,7 +35,7 @@ $(document).ready(function(){
             type: 'wordcloud',
             options: {
                 minLength: 4,
-                ignore: ['establish','this'],
+                ignore: [],
                 rotate: true,
                 words: [],
                 minFontSize: 20
