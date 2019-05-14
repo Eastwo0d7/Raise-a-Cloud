@@ -15,3 +15,6 @@ html, body {
 #wordCloud-license-text {
     display: none;
 }
+#wordCloud svg {
+    width: 90%;
+}
