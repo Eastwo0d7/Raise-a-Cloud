@@ -90,6 +90,74 @@ $(document).ready(function(){
                 results = response[queryOption];
                 wordCloudify(results);
             }
-        });
-    });
+//....................................................................................................................                      
+            // results - the array for the word could
+//...............................................................................................................
+
+    ///............................................................................................................
+    var cloudObject = {
+        type: 'wordcloud',
+        options: {
+            minLength: 4,
+            ignore: ['establish','this'],
+            
+            rotate: true,
+            words: [
+                {
+                    text:"time",
+                    count:20
+                },
+                {
+                    "text":"to",
+                    "count":80
+                },
+                {
+                    "text":"get",
+                    "count":30
+                },
+                {
+                    "text":"this",
+                    "count":60
+                },
+                {
+                    "text":"started",
+                    "count":10
+                },
+                {
+                    "text":"party",
+                    "count":120
+                }
+            ]
+        }
+        };
+           
+          zingchart.render({ 
+              id: 'wordCloud', 
+              data: cloudObject, 
+              height: 600, 
+              width: '100%' 
+          });
 });
+
+// YouTube API coding//
+$("#wordCloud").on("click", ".btn", function(){
+    var thing = $(this).attr("data");
+    var queryURL= "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&type=video&videoCaption=any&videoEmbeddable=true&key=AIzaSyBFdAj180yBiZ33C3-xrOPQYshWRWEyAdQ"
+
+    $(".instructions").show();
+    $.ajax({
+        url: queryURL,
+        method: "GET" 
+
+    }).done(function(response){
+        console.log(response);
+        
+        var results = response.data;
+
+        for (var i = 0; i < results.length; i++) {
+            //div to hold video 
+            var topicDiv =$("<div>"); 
+        }
+    });
+
+})})})
