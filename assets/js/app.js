@@ -103,4 +103,7 @@ $("#wordCloud").on("click", ".btn", function(){
         
         var results = response.data;
 
-        for (var i = 0; i < results.length; i++)}
+        for (var i = 0; i < results.length; i++) {
+            //div to hold video 
+            var topicDiv =$("<div");
+        }
