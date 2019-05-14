@@ -10,19 +10,23 @@
 </head>
 <body>
     <div class="container">
-        <div class="row justify-content-center text-align-center">
+        <div class="row justify-content-center text-center">
             <h1>Words to Video Matcher!</h1>
         </div>
         <div class="row justify-content-center">
             <div class="col">
                 <form id="myForm">
+                    <div class ="form-group" id="username-field">
+                        <label for="username">Username</label>
+                        <input type='text' class='form-control' id="username" name="username" required></input>
+                    </div>
                     <div class="form-group">
                         <label for="searchTerm">Search for a word!</label>
-                        <input type="text" class="form-control" id="searchTerm" placeholder="For example: hatchback">
+                        <input type="text" class="form-control" id="searchTerm" name="searchTerm" placeholder="For example: hatchback">
                     </div>
                     <div class="form-group">
                         <label for="wordOption">Select an option:</label>
-                        <select class="form-control" id="wordOption">
+                        <select class="form-control" id="wordOption" name="wordOption">
                         <option data-value = "definitions" >Definition</option>
                         <option data-value = "synonyms">Synonyms</option>
                         <option data-value = "antonyms">Antonyms</option>
@@ -43,8 +47,6 @@
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="../project-one/app.js"></script>
-    <script src="../project-one/assests/appWords.js"></script>
     <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
     <script> zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
             ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9","ee6b7db5b51705a13dc2339db3edaf6d"];</script>
