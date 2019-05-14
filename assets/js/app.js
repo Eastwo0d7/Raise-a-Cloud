@@ -156,5 +156,8 @@ $("#wordCloud").on("click", ".btn", function(){
 
         for (var i = 0; i < results.length; i++) {
             //div to hold video 
-            var topicDiv =$("<div"); 
+            var topicDiv =$("<div>"); 
         }
+    });
+
+})})})
