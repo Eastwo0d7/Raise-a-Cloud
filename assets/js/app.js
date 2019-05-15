@@ -12,12 +12,20 @@ $(document).ready(function(){
 
     // This is the option user selects from the dropdown    
     var queryOption = "";
-
+    function returnRandomWord(array){
+        var randomNum = Math.floor(Math.random()*array.length);
+        return array[randomNum];
+    }
+    function scrollTo(target){
+        var offsetTop = $(target).offset().top;
+        // console.log(offsetTop);
+        $(window).scrollTop(offsetTop);
+    }
     function wordCloudify(wordsArray){
         // debugger;
-        console.log(wordsArray);
+        // console.log(wordsArray);
         words=[];
-        console.log(typeof wordsArray);
+        // console.log(typeof wordsArray);
         // console.log(wordsArray[0]);
         for (i=0;i<wordsArray.length;i++){
             if (wordsArray[i].definition){
@@ -30,7 +38,7 @@ $(document).ready(function(){
         }
         // console.log(words);
 
-        console.log('words',words);
+        // console.log('words',words);
         var cloudObject = {
             type: 'wordcloud',
             options: {
@@ -43,7 +51,7 @@ $(document).ready(function(){
         };
         function returnRandomNum(){
             var randomNum = Math.floor((Math.random() * 200) + 1);
-            console.log(randomNum);
+            // console.log(randomNum);
             return randomNum.toString();
         }
         for (i=0;i<words.length;i++){
@@ -53,7 +61,7 @@ $(document).ready(function(){
             }
             cloudObject.options.words.push(word);
         }
-        console.log(cloudObject.options.words);
+        // console.log(cloudObject.options.words);
         zingchart.render({ 
             id: 'wordCloud', 
             data: cloudObject, 
@@ -61,18 +69,15 @@ $(document).ready(function(){
             width: '100%' 
         });
     }
-    function youTubify(){
-        console.log('something');
-        var thing = $(this).attr("data");
-        var queryURL= "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=6&type=video&videoCaption=any&videoEmbeddable=true&key=AIzaSyBFdAj180yBiZ33C3-xrOPQYshWRWEyAdQ"
-    
-        // $(".instructions").show();
-        $.ajax({
+    function youTubify(searchTerm){
+        // console.log('something');
+        var queryURL= "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=6&type=video&videoCaption=any&videoEmbeddable=true&key=AIzaSyBFdAj180yBiZ33C3-xrOPQYshWRWEyAdQ&q"+searchTerm
+            $.ajax({
             url: queryURL,
             method: "GET" 
     
         }).done(function(response){
-            console.log(response);
+            // console.log(response);
             
             var results = response.items;
             var videoIds = [];
@@ -81,7 +86,7 @@ $(document).ready(function(){
                 //div to hold video 
                 videoIds.push(results[i].id.videoId);
             }
-            console.log(videoIds);
+            // console.log(videoIds);
             // brettsFunction(videoIds);
         });
     }
@@ -102,20 +107,28 @@ $(document).ready(function(){
         $.ajax({
             url : queryURL,
             method : "GET",
-            headers : {"X-Mashape-Key":apiKey}
-        }).done (function(response){
+            headers : {"X-Mashape-Key":apiKey},
+            statusCode : {
+                404: function(){
+                    alert('404 error!!')
+                }
+            }
+        }).done(function(response){
             // assign the array of words to a variable.
             if(queryOption === "rhymes"){
                 // words for rhymes option has a neseted  object as all
                 results = response[queryOption].all;  
                 wordCloudify(results);   
-                youTubify();         
+                youTubify(returnRandomWord(results));         
             }
             else {
                 results = response[queryOption];
                 wordCloudify(results);
-                youTubify();
+                youTubify(returnRandomWord(results));
             }
+        });
+        setTimeout(function(){
+            scrollTo('#youtube-listing-wrapper');
         });
     });
 });
