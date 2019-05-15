@@ -61,6 +61,30 @@ $(document).ready(function(){
             width: '100%' 
         });
     }
+    function youTubify(){
+        console.log('something');
+        var thing = $(this).attr("data");
+        var queryURL= "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=6&type=video&videoCaption=any&videoEmbeddable=true&key=AIzaSyBFdAj180yBiZ33C3-xrOPQYshWRWEyAdQ"
+    
+        // $(".instructions").show();
+        $.ajax({
+            url: queryURL,
+            method: "GET" 
+    
+        }).done(function(response){
+            console.log(response);
+            
+            var results = response.items;
+            var videoIds = [];
+    
+            for (var i = 0; i < results.length; i++) {
+                //div to hold video 
+                videoIds.push(results[i].id.videoId);
+            }
+            console.log(videoIds);
+            // brettsFunction(videoIds);
+        });
+    }
 // Check to see if user has signed up:
     if (localStorage.getItem('wordCloudUser')){
         console.log('user exists');
@@ -84,11 +108,13 @@ $(document).ready(function(){
             if(queryOption === "rhymes"){
                 // words for rhymes option has a neseted  object as all
                 results = response[queryOption].all;  
-                wordCloudify(results);            
+                wordCloudify(results);   
+                youTubify();         
             }
             else {
                 results = response[queryOption];
                 wordCloudify(results);
+                youTubify();
             }
 //....................................................................................................................                      
             // results - the array for the word could
@@ -137,27 +163,31 @@ $(document).ready(function(){
               height: 600, 
               width: '100%' 
           });
+          // YouTube API coding//
+        //   $(document).on("click", "#submit", function(event){
+        //       event.preventDefault();
+        //       console.log('something');
+        //       var thing = $(this).attr("data");
+        //       var queryURL= "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&type=video&videoCaption=any&videoEmbeddable=true&key=AIzaSyBFdAj180yBiZ33C3-xrOPQYshWRWEyAdQ"
+          
+        //       $(".instructions").show();
+        //       $.ajax({
+        //           url: queryURL,
+        //           method: "GET" 
+          
+        //       }).done(function(response){
+        //           console.log(response);
+                  
+        //           var results = response.data;
+          
+        //           for (var i = 0; i < results.length; i++) {
+        //               //div to hold video 
+        //               var topicDiv =$("<div>"); 
+        //           }
+        //       });
+          
+        //     });
+        });
+    });
 });
 
-// YouTube API coding//
-$("#wordCloud").on("click", ".btn", function(){
-    var thing = $(this).attr("data");
-    var queryURL= "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&type=video&videoCaption=any&videoEmbeddable=true&key=AIzaSyBFdAj180yBiZ33C3-xrOPQYshWRWEyAdQ"
-
-    $(".instructions").show();
-    $.ajax({
-        url: queryURL,
-        method: "GET" 
-
-    }).done(function(response){
-        console.log(response);
-        
-        var results = response.data;
-
-        for (var i = 0; i < results.length; i++) {
-            //div to hold video 
-            var topicDiv =$("<div>"); 
-        }
-    });
-
-})})})
