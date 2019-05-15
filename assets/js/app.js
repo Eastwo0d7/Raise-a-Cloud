@@ -70,9 +70,15 @@ $(document).ready(function(){
         });
     }
     function youTubify(searchTerm){
+<<<<<<< HEAD
         // console.log('something');
         var queryURL= "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=6&type=video&videoCaption=any&videoEmbeddable=true&key=AIzaSyBFdAj180yBiZ33C3-xrOPQYshWRWEyAdQ&q"+searchTerm
             $.ajax({
+=======
+        var queryURL= "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=6&type=video&videoCaption=any&videoEmbeddable=true&key=AIzaSyBFdAj180yBiZ33C3-xrOPQYshWRWEyAdQ&q=" + searchTerm
+        // $(".instructions").show();
+        $.ajax({
+>>>>>>> a0159789163478bde825347301cd9ff38f845263
             url: queryURL,
             method: "GET" 
     
@@ -86,8 +92,22 @@ $(document).ready(function(){
                 //div to hold video 
                 videoIds.push(results[i].id.videoId);
             }
+<<<<<<< HEAD
             // console.log(videoIds);
             // brettsFunction(videoIds);
+=======
+            console.log(videoIds);
+
+            for (var i = 0; i < videoIds.length; i++) {
+                var youTubeWrapper = $("<div>");
+                var video = '<iframe width="560" height="315" src="https://www.youtube.com/embed/' + videoIds[i] + '" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+                console.log(videoIds[i]);
+                youTubeWrapper.html(video);
+                console.log(youTubeWrapper);
+                $("#youtubebox").append(video);
+            }
+           
+>>>>>>> a0159789163478bde825347301cd9ff38f845263
         });
     }
 // Check to see if user has signed up:
