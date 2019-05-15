@@ -16,10 +16,11 @@ $(document).ready(function(){
 
     $(document).on("click","#submit",function(event){
         event.preventDefault();
-        queryWord = $("#searchTerm").val().trim();
+        queryWord = $("#searchTerm").val().trim();        
         queryOption = $("#wordOption").find('option:selected').data("value");
         
-       
+        validateInput(queryWord);
+
         // queryWord = "Cool";
         // queryOption = "rhymes";
 
@@ -86,4 +87,30 @@ $(document).ready(function(){
               height: 600, 
               width: '100%' 
           });
+});
+});
+// ...........................................function validate input................................................
+
+function validateInput(inputTerm){
+// This function will validat   e the search term field for following conditions
+
+//Check if serch term is null
+
+var allowedLetters = /^[A-Za-z\s]+$/;
+var inputValid = allowedLetters.test(inputTerm);
+var multipleWords = inputTerm.indexOf(" ");
+
+debugger;
+try{
+    if (inputTerm === "") throw ("Seach word cannot be empty");
+       
+    if (inputValid === false) throw ("alphabet characters only");
+    
+    if (multipleWords >0 ) throw ("Please enter a single word");
+} 
+catch(err) {
+    alert(err);
+}
+}
+
 });
