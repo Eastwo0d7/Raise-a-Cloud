@@ -61,11 +61,8 @@ $(document).ready(function(){
             width: '100%' 
         });
     }
-    function youTubify(){
-        console.log('something');
-        var thing = $(this).attr("data");
-        var queryURL= "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=6&type=video&videoCaption=any&videoEmbeddable=true&key=AIzaSyBFdAj180yBiZ33C3-xrOPQYshWRWEyAdQ"
-    
+    function youTubify(searchTerm){
+        var queryURL= "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=6&type=video&videoCaption=any&videoEmbeddable=true&key=AIzaSyBFdAj180yBiZ33C3-xrOPQYshWRWEyAdQ&q=" + searchTerm
         // $(".instructions").show();
         $.ajax({
             url: queryURL,
@@ -82,7 +79,16 @@ $(document).ready(function(){
                 videoIds.push(results[i].id.videoId);
             }
             console.log(videoIds);
-            // brettsFunction(videoIds);
+
+            for (var i = 0; i < videoIds.length; i++) {
+                var youTubeWrapper = $("<div>");
+                var video = '<iframe width="560" height="315" src="https://www.youtube.com/embed/' + videoIds[i] + '" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+                console.log(videoIds[i]);
+                youTubeWrapper.html(video);
+                console.log(youTubeWrapper);
+                $("#youtubebox").append(video);
+            }
+           
         });
     }
 // Check to see if user has signed up:
