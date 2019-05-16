@@ -27,6 +27,7 @@ $(document).ready(function(){
 
     // This is the option user selects from the dropdown    
     var queryOption = "";
+    var userName;
     function initSlick(target){
         $(target).slick({
             slidesToShow: 1,
@@ -101,14 +102,10 @@ $(document).ready(function(){
             $('#youtubebox').slick('unslick');
         }
         // var youTubeQuery;
-        // try {
-        //     var youTubeQuery = searchTerm.definition;
-        // } catch {
-        //     var youTubeQuery = searchTerm;
-        // }
-        //     // console.log(wordsArray[i]);
+
+            // console.log(wordsArray[i]);
             
-        var queryURL= "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=6&type=video&videoCaption=any&videoEmbeddable=true&key=AIzaSyBFdAj180yBiZ33C3-xrOPQYshWRWEyAdQ&q=" + searchTerm;
+        var queryURL= "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=6&type=video&videoCaption=any&videoEmbeddable=true&key=AIzaSyBFdAj180yBiZ33C3-xrOPQYshWRWEyAdQ&q=" + searchTerm
         // $(".instructions").show();
         $.ajax({
             url: queryURL,
@@ -165,16 +162,25 @@ $(document).ready(function(){
 // Check to see if user has signed up:
     if (localStorage.getItem('wordCloudUser')){
         console.log('user exists');
+        userName = localStorage.getItem('wordCloudUser');
+        console.log(userName);
         $('#username-field').hide();
+        $('#username').addClass('known');
+        $('#username').val(userName);
     } else {
         console.log('user not found');
     }
     $(document).on("click","#submit",function(event){
         event.preventDefault();
-        userName = $('#username').val().trim();
+        console.log($('#username').val().trim());
+        if (!$('#username').hasClass('known')){
+            userName = $('#username').val().trim();
+        }
         localStorage.setItem('wordCloudUser',userName);
         queryWord = $("#searchTerm").val().trim();
         queryOption = $("#wordOption").find('option:selected').data("value");
+
+        // ############# WORD CLOUD AJAX ############### //
         queryURL = "https://wordsapiv1.p.mashape.com/words/"+ queryWord + "/" + queryOption ;
         dataRef.ref().push({
             userName: userName,
@@ -190,16 +196,18 @@ $(document).ready(function(){
                 }
             }
         }).done(function(response){
+            // console.log(results);
             // assign the array of words to a variable.
             if(queryOption === "rhymes"){
                 // words for rhymes option has a neseted  object as all
                 results = response[queryOption].all;  
+                // console.log(results);
                 wordCloudify(results);   
                 youTubify(returnRandomWord(results));         
             }
             else {
                 results = response[queryOption];
-                // console.log(results);
+                // console.log(returnRandomWord(results));
                 wordCloudify(results);
                 youTubify(returnRandomWord(results));
             }
