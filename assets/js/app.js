@@ -1,3 +1,17 @@
+var firebaseConfig = {
+    apiKey: "AIzaSyBu9TX91Rn-TmSc1ggZM9jvLJ8A2V-Vxf0",
+    authDomain: "words-to-video.firebaseapp.com",
+    databaseURL: "https://words-to-video.firebaseio.com",
+    projectId: "words-to-video",
+    storageBucket: "words-to-video.appspot.com",
+    messagingSenderId: "153429453725",
+    appId: "1:153429453725:web:d087d82315e52db5"
+  };
+
+firebase.initializeApp(firebaseConfig);
+
+var dataRef = firebase.database();
+
 $(document).ready(function(){
     var word;
     
@@ -13,14 +27,7 @@ $(document).ready(function(){
 
     // This is the option user selects from the dropdown    
     var queryOption = "";
-
-    var alertModal = $("#alertMessage");
-    var valid = true;
-
-
-    alertModal.hide();
-
-
+    var userName;
     function initSlick(target){
         $(target).slick({
             slidesToShow: 1,
@@ -95,14 +102,10 @@ $(document).ready(function(){
             $('#youtubebox').slick('unslick');
         }
         // var youTubeQuery;
-        try {
-            var youTubeQuery = searchTerm.definition;
-        } catch {
-            var youTubeQuery = searchTerm;
-        }
+
             // console.log(wordsArray[i]);
             
-        var queryURL= "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=6&type=video&videoCaption=any&videoEmbeddable=true&key=AIzaSyBFdAj180yBiZ33C3-xrOPQYshWRWEyAdQ&q=" + youTubeQuery
+        var queryURL= "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=6&type=video&videoCaption=any&videoEmbeddable=true&key=AIzaSyBFdAj180yBiZ33C3-xrOPQYshWRWEyAdQ&q=" + searchTerm
         // $(".instructions").show();
         $.ajax({
             url: queryURL,
@@ -160,7 +163,11 @@ $(document).ready(function(){
 // Check to see if user has signed up:
     if (localStorage.getItem('wordCloudUser')){
         console.log('user exists');
+        userName = localStorage.getItem('wordCloudUser');
+        console.log(userName);
         $('#username-field').hide();
+        $('#username').addClass('known');
+        $('#username').val(userName);
     } else {
         console.log('user not found');
     }
@@ -173,6 +180,10 @@ $(document).ready(function(){
 
 
         userName = $('#username').val().trim()  ;
+        console.log($('#username').val().trim());
+        if (!$('#username').hasClass('known')){
+            userName = $('#username').val().trim();
+        }
         localStorage.setItem('wordCloudUser',userName);
         queryWord = $("#searchTerm").val().trim();
         queryOption = $("#wordOption").find('option:selected').data("value");
