@@ -7,11 +7,15 @@ html, body {
 #wordCloud {
 	height:100%;
 	width:100%;
-	min-height:150px;
+    min-height:150px;
+    box-sizing: inherit;
 }
 .zc-ref {
 	display:none;
 }
 #wordCloud-license-text {
     display: none;
+}
+#wordCloud svg {
+    width: 90%;
 }
