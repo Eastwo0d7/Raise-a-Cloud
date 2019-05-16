@@ -11,6 +11,8 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 var dataRef = firebase.database();
+var valid = true;
+var alertModal = $("#alertMessage");
 
 $(document).ready(function(){
     var word;
@@ -159,6 +161,7 @@ $(document).ready(function(){
             initSlick("#youtubebox");
         });
     }
+    //..............................................................................
 // Check to see if user has signed up:
     if (localStorage.getItem('wordCloudUser')){
         console.log('user exists');
@@ -170,8 +173,15 @@ $(document).ready(function(){
     } else {
         console.log('user not found');
     }
+
+    //.........................................................function for submit button.............................
     $(document).on("click","#submit",function(event){
         event.preventDefault();
+      
+        
+
+
+        userName = $('#username').val().trim()  ;
         console.log($('#username').val().trim());
         if (!$('#username').hasClass('known')){
             userName = $('#username').val().trim();
@@ -180,19 +190,18 @@ $(document).ready(function(){
         queryWord = $("#searchTerm").val().trim();
         queryOption = $("#wordOption").find('option:selected').data("value");
 
-        // ############# WORD CLOUD AJAX ############### //
-        queryURL = "https://wordsapiv1.p.mashape.com/words/"+ queryWord + "/" + queryOption ;
-        dataRef.ref().push({
-            userName: userName,
-            queryWord: queryWord
-        });        
-        $.ajax({
-            url : queryURL,
-            method : "GET",
-            headers : {"X-Mashape-Key":apiKey},
-            statusCode : {
-                404: function(){
-                    alert('404 error!!')
+        valid = validateInput(queryWord);
+
+        if (valid === true){
+            queryURL = "https://wordsapiv1.p.mashape.com/words/"+ queryWord + "/" + queryOption ;        
+            $.ajax({
+                url : queryURL,
+                method : "GET",
+                headers : {"X-Mashape-Key":apiKey},
+                statusCode : {
+                    404: function(){
+                        alert('404 error!!')
+                    }
                 }
             }
         }).done(function(response){
@@ -222,6 +231,8 @@ $(document).ready(function(){
             scrollTo('#youtubebox');
         });
     });
+
+    // .............................................................................................................
     $(document).on('click','.youtube',function(){
         var iframe = $('<iframe>');
         var source = "https://www.youtube.com/embed/"+ $(this).attr('data-id') +"?rel=0&showinfo=0&autoplay=1";
@@ -229,5 +240,48 @@ $(document).ready(function(){
         $(this).html('');
         $(this).append(iframe);
     });
+
+    // ...................................................................................................................
+
+    function validateInput(inputTerm){
+        // This function will validat   e the search term field for following conditions
+        
+        //Check if serch term is null
+        
+        var allowedLetters = /^[A-Za-z\s]+$/;
+        var inputValid = allowedLetters.test(inputTerm);
+        var multipleWords = inputTerm.indexOf(" ");
+       
+
+        debugger;
+        try{
+            if (inputTerm === "") throw ("Seach word cannot be empty");
+               
+            if (inputValid === false) throw ("Alphabet characters only");
+            
+            if (multipleWords >0 ) throw ("Please enter a single word");
+        } 
+        catch(err) {
+            // alert(err);
+          
+            $("#errMessage").text(err);
+        
+            console.log($("#errMessage").text());
+            alertModal.append(errMessage);
+            alertModal.show();
+            valid = false;
+
+               
+            // $("#sumbit").data("target","#myModal");
+        }
+
+        return valid;
+    }
+// .............................................................................................................
+
+$(document).on("click",'.btnClose',function(){
+    alertModal.hide();
+})
+
 });
 
