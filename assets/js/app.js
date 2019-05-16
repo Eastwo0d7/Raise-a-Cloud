@@ -12,6 +12,8 @@ firebase.initializeApp(firebaseConfig);
 
 var dataRef = firebase.database();
 var valid = true;
+var alertModal = $("#alertMessage");
+
 $(document).ready(function(){
     var word;
     
