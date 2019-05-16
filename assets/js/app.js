@@ -101,14 +101,14 @@ $(document).ready(function(){
             $('#youtubebox').slick('unslick');
         }
         // var youTubeQuery;
-        try {
-            var youTubeQuery = searchTerm.definition;
-        } catch {
-            var youTubeQuery = searchTerm;
-        }
-            // console.log(wordsArray[i]);
+        // try {
+        //     var youTubeQuery = searchTerm.definition;
+        // } catch {
+        //     var youTubeQuery = searchTerm;
+        // }
+        //     // console.log(wordsArray[i]);
             
-        var queryURL= "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=6&type=video&videoCaption=any&videoEmbeddable=true&key=AIzaSyBFdAj180yBiZ33C3-xrOPQYshWRWEyAdQ&q=" + youTubeQuery
+        var queryURL= "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=6&type=video&videoCaption=any&videoEmbeddable=true&key=AIzaSyBFdAj180yBiZ33C3-xrOPQYshWRWEyAdQ&q=" + searchTerm;
         // $(".instructions").show();
         $.ajax({
             url: queryURL,
