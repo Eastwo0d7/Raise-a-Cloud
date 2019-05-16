@@ -9,9 +9,21 @@ $(document).ready(function(){
 
     //This the input word 
     var queryWord = "";
+    // var youTubeQuery;
 
     // This is the option user selects from the dropdown    
     var queryOption = "";
+    function initSlick(target){
+        $(target).slick({
+            slidesToShow: 1,
+            autoplay: false,
+            autoplaySpeed: 3000,
+            centerMode: true,
+            adaptiveHeight: true,
+            centerPadding: '50px',
+            variableWidth: false,
+        });
+    }
     function returnRandomWord(array){
         var randomNum = Math.floor(Math.random()*array.length);
         return array[randomNum];
@@ -70,15 +82,18 @@ $(document).ready(function(){
         });
     }
     function youTubify(searchTerm){
-<<<<<<< HEAD
-        // console.log('something');
-        var queryURL= "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=6&type=video&videoCaption=any&videoEmbeddable=true&key=AIzaSyBFdAj180yBiZ33C3-xrOPQYshWRWEyAdQ&q"+searchTerm
-            $.ajax({
-=======
-        var queryURL= "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=6&type=video&videoCaption=any&videoEmbeddable=true&key=AIzaSyBFdAj180yBiZ33C3-xrOPQYshWRWEyAdQ&q=" + searchTerm
+        console.log(searchTerm);
+        // var youTubeQuery;
+        try {
+            var youTubeQuery = searchTerm.definition;
+        } catch {
+            var youTubeQuery = searchTerm;
+        }
+            // console.log(wordsArray[i]);
+            
+        var queryURL= "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=6&type=video&videoCaption=any&videoEmbeddable=true&key=AIzaSyBFdAj180yBiZ33C3-xrOPQYshWRWEyAdQ&q=" + youTubeQuery
         // $(".instructions").show();
         $.ajax({
->>>>>>> a0159789163478bde825347301cd9ff38f845263
             url: queryURL,
             method: "GET" 
     
@@ -92,22 +107,17 @@ $(document).ready(function(){
                 //div to hold video 
                 videoIds.push(results[i].id.videoId);
             }
-<<<<<<< HEAD
             // console.log(videoIds);
-            // brettsFunction(videoIds);
-=======
-            console.log(videoIds);
 
             for (var i = 0; i < videoIds.length; i++) {
                 var youTubeWrapper = $("<div>");
                 var video = '<iframe width="560" height="315" src="https://www.youtube.com/embed/' + videoIds[i] + '" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
-                console.log(videoIds[i]);
+                // console.log(videoIds[i]);
                 youTubeWrapper.html(video);
-                console.log(youTubeWrapper);
-                $("#youtubebox").append(video);
+                // console.log(youTubeWrapper);
+                $("#youtubebox").append(youTubeWrapper);
             }
-           
->>>>>>> a0159789163478bde825347301cd9ff38f845263
+            initSlick("#youtubebox");
         });
     }
 // Check to see if user has signed up:
@@ -143,12 +153,13 @@ $(document).ready(function(){
             }
             else {
                 results = response[queryOption];
+                // console.log(results);
                 wordCloudify(results);
                 youTubify(returnRandomWord(results));
             }
         });
         setTimeout(function(){
-            scrollTo('#youtube-listing-wrapper');
+            scrollTo('#youtubebox');
         });
     });
 });
