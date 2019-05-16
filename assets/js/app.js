@@ -154,7 +154,7 @@ $(document).ready(function(){
                 // // console.log(videoIds[i]);
                 // youTubeWrapper.html(video);
                 // console.log(youTubeWrapper);
-                $("#youtubebox").append(youTubeWrapper);
+                $("#youtubebox").prepend(youTubeWrapper);
             }
             initSlick("#youtubebox");
         });
@@ -206,10 +206,16 @@ $(document).ready(function(){
                 youTubify(returnRandomWord(results));         
             }
             else {
+                console.log(response);
                 results = response[queryOption];
+                console.log(results.length);
+                if (results.length == 0){
+                    alert('search something different');
+                } else {
+                    wordCloudify(results);
+                    youTubify(returnRandomWord(results));
+                }
                 // console.log(returnRandomWord(results));
-                wordCloudify(results);
-                youTubify(returnRandomWord(results));
             }
         });
         setTimeout(function(){
