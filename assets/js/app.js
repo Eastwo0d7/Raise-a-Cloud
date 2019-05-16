@@ -9,20 +9,43 @@ $(document).ready(function(){
 
     //This the input word 
     var queryWord = "";
+    // var youTubeQuery;
 
     // This is the option user selects from the dropdown    
     var queryOption = "";
 
-    var alertModal = $("#alertModal");
+    var alertModal = $("#alertMessage");
+    var valid = true;
 
-    alertModal.modal({show:false});
+
+    alertModal.hide();
 
 
+    function initSlick(target){
+        $(target).slick({
+            slidesToShow: 1,
+            autoplay: false,
+            autoplaySpeed: 3000,
+            centerMode: true,
+            adaptiveHeight: true,
+            centerPadding: '50px',
+            variableWidth: false,
+        });
+    }
+    function returnRandomWord(array){
+        var randomNum = Math.floor(Math.random()*array.length);
+        return array[randomNum];
+    }
+    function scrollTo(target){
+        var offsetTop = $(target).offset().top;
+        // console.log(offsetTop);
+        $(window).scrollTop(offsetTop);
+    }
     function wordCloudify(wordsArray){
         // debugger;
-        console.log(wordsArray);
+        // console.log(wordsArray);
         words=[];
-        console.log(typeof wordsArray);
+        // console.log(typeof wordsArray);
         // console.log(wordsArray[0]);
         for (i=0;i<wordsArray.length;i++){
             if (wordsArray[i].definition){
@@ -35,7 +58,7 @@ $(document).ready(function(){
         }
         // console.log(words);
 
-        console.log('words',words);
+        // console.log('words',words);
         var cloudObject = {
             type: 'wordcloud',
             options: {
@@ -48,7 +71,7 @@ $(document).ready(function(){
         };
         function returnRandomNum(){
             var randomNum = Math.floor((Math.random() * 200) + 1);
-            console.log(randomNum);
+            // console.log(randomNum);
             return randomNum.toString();
         }
         for (i=0;i<words.length;i++){
@@ -58,7 +81,7 @@ $(document).ready(function(){
             }
             cloudObject.options.words.push(word);
         }
-        console.log(cloudObject.options.words);
+        // console.log(cloudObject.options.words);
         zingchart.render({ 
             id: 'wordCloud', 
             data: cloudObject, 
@@ -66,41 +89,81 @@ $(document).ready(function(){
             width: '100%' 
         });
     }
-
-    // ..........................................................................................................
-
-    function youTubify(){
-        console.log('something');
-        var thing = $(this).attr("data");
-        var queryURL= "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=6&type=video&videoCaption=any&videoEmbeddable=true&key=AIzaSyBFdAj180yBiZ33C3-xrOPQYshWRWEyAdQ"
-    
+    function youTubify(searchTerm){
+        console.log(searchTerm);
+        if ($('#youtubebox').hasClass('slick-slider')) {
+            $('#youtubebox').slick('unslick');
+        }
+        // var youTubeQuery;
+        try {
+            var youTubeQuery = searchTerm.definition;
+        } catch {
+            var youTubeQuery = searchTerm;
+        }
+            // console.log(wordsArray[i]);
+            
+        var queryURL= "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=6&type=video&videoCaption=any&videoEmbeddable=true&key=AIzaSyBFdAj180yBiZ33C3-xrOPQYshWRWEyAdQ&q=" + youTubeQuery
         // $(".instructions").show();
         $.ajax({
             url: queryURL,
             method: "GET" 
     
         }).done(function(response){
-            console.log(response);
+            // console.log(response);
             
             var results = response.items;
+            console.log(results);
             var videoIds = [];
     
             for (var i = 0; i < results.length; i++) {
                 //div to hold video 
-                videoIds.push(results[i].id.videoId);
+                console.log(results[i].snippet.title)
+                videoIds.push({
+                    id: results[i].id.videoId,
+                    title: results[i].snippet.title,
+                    img: results[i].snippet.thumbnails.high.url
+                });
             }
-            console.log(videoIds);
-            // brettsFunction(videoIds);
+            // console.log(videoIds);
+
+
+            var youTubeWrapper;
+            var playButton;
+            var imageThumb;
+            var title;
+            var videoId;
+            for (var i = 0; i < videoIds.length; i++) {
+                videoId = videoIds[i].id;
+                youTubeWrapper = $("<div>");
+                playButton = $('<div>');
+                imageThumb = $('<img>');
+                title = $('<div>');
+                title.addClass('video-title');
+                title.text(videoIds[i].title);
+                imageThumb.attr('src', videoIds[i].img);
+                youTubeWrapper.addClass('youtube');
+                youTubeWrapper.attr('data-id',videoId);
+                playButton.addClass('play-button');
+                youTubeWrapper.append(playButton);
+                youTubeWrapper.append(imageThumb);
+                youTubeWrapper.append(title);
+                // var video = '<iframe width="560" height="315" src="https://www.youtube.com/embed/' + videoIds[i] + '" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+                // // console.log(videoIds[i]);
+                // youTubeWrapper.html(video);
+                // console.log(youTubeWrapper);
+                $("#youtubebox").append(youTubeWrapper);
+            }
+            initSlick("#youtubebox");
         });
     }
     //..............................................................................
 // Check to see if user has signed up:
-    // if (localStorage.getItem('wordCloudUser')){
-    //     console.log('user exists');
-    //     $('#username-field').hide();
-    // } else {
-    //     console.log('user not found');
-    // }
+    if (localStorage.getItem('wordCloudUser')){
+        console.log('user exists');
+        $('#username-field').hide();
+    } else {
+        console.log('user not found');
+    }
 
     //.........................................................function for submit button.............................
     $(document).on("click","#submit",function(event){
@@ -109,141 +172,96 @@ $(document).ready(function(){
         
 
 
-        // userName = $('#username').val().trim()  ;
-        // localStorage.setItem('wordCloudUser',userName);
+        userName = $('#username').val().trim()  ;
+        localStorage.setItem('wordCloudUser',userName);
         queryWord = $("#searchTerm").val().trim();
         queryOption = $("#wordOption").find('option:selected').data("value");
 
-        validateInput(queryWord);
+        valid = validateInput(queryWord);
 
-
-        queryURL = "https://wordsapiv1.p.mashape.com/words/"+ queryWord + "/" + queryOption ;        
-        $.ajax({
-            url : queryURL,
-            method : "GET",
-            headers : {"X-Mashape-Key":apiKey}
-        }).done (function(response){
-            // assign the array of words to a variable.
-            if(queryOption === "rhymes"){
-                // words for rhymes option has a neseted  object as all
-                results = response[queryOption].all;  
-                wordCloudify(results);   
-                youTubify();         
-            }
-            else {
-                results = response[queryOption];
-                wordCloudify(results);
-                youTubify();
-            }
-//....................................................................................................................                      
-            // results - the array for the word could
-//...............................................................................................................
-
-    ///............................................................................................................
-    var cloudObject = {
-        type: 'wordcloud',
-        options: {
-            minLength: 4,
-            ignore: ['establish','this'],
-            
-            rotate: true,
-            words: [
-                {
-                    text:"time",
-                    count:20
-                },
-                {
-                    "text":"to",
-                    "count":80
-                },
-                {
-                    "text":"get",
-                    "count":30
-                },
-                {
-                    "text":"this",
-                    "count":60
-                },
-                {
-                    "text":"started",
-                    "count":10
-                },
-                {
-                    "text":"party",
-                    "count":120
+        if (valid === true){
+            queryURL = "https://wordsapiv1.p.mashape.com/words/"+ queryWord + "/" + queryOption ;        
+            $.ajax({
+                url : queryURL,
+                method : "GET",
+                headers : {"X-Mashape-Key":apiKey},
+                statusCode : {
+                    404: function(){
+                        alert('404 error!!')
+                    }
                 }
-            ]
+            }).done(function(response){
+                // assign the array of words to a variable.
+                if(queryOption === "rhymes"){
+                    // words for rhymes option has a neseted  object as all
+                    results = response[queryOption].all;  
+                    wordCloudify(results);   
+                    youTubify(returnRandomWord(results));         
+                }
+                else {
+                    results = response[queryOption];
+                    // console.log(results);
+                    wordCloudify(results);
+                    youTubify(returnRandomWord(results));
+                }
+            });
+            setTimeout(function(){
+                scrollTo('#youtubebox');
+            });
         }
-        };
-           
-          zingchart.render({ 
-              id: 'wordCloud', 
-              data: cloudObject, 
-              height: 600, 
-              width: '100%' 
-          });
-});
-});
-// ...........................................function validate input................................................
 
-function validateInput(inputTerm){
-// This function will validat   e the search term field for following conditions
+    });
 
-//Check if serch term is null
+    // .............................................................................................................
+    $(document).on('click','.youtube',function(){
+        var iframe = $('<iframe>');
+        var source = "https://www.youtube.com/embed/"+ $(this).attr('data-id') +"?rel=0&showinfo=0&autoplay=1";
+        iframe.attr('src',source);
+        $(this).html('');
+        $(this).append(iframe);
+    });
 
-var allowedLetters = /^[A-Za-z\s]+$/;
-var inputValid = allowedLetters.test(inputTerm);
-var multipleWords = inputTerm.indexOf(" ");
+    // ...................................................................................................................
 
-debugger;
-try{
-    if (inputTerm === "") throw ("Seach word cannot be empty");
+    function validateInput(inputTerm){
+        // This function will validat   e the search term field for following conditions
+        
+        //Check if serch term is null
+        
+        var allowedLetters = /^[A-Za-z\s]+$/;
+        var inputValid = allowedLetters.test(inputTerm);
+        var multipleWords = inputTerm.indexOf(" ");
        
-    if (inputValid === false) throw ("alphabet characters only");
-    
-    if (multipleWords >0 ) throw ("Please enter a single word");
-} 
-catch(err) {
-    // alert(err);
-    var errMessage = $("<p>");
-    errMessage.text(err);
 
-    console.log($("errMessage".text));
-    // $("#submit").data("toggele","modal");
-    // $("#myModal").modal('show');
-    $("#modalText").append(errMessage);
-    alertModal.modal('show');
-       
-    // $("#sumbit").data("target","#myModal");
-}
-}
+        debugger;
+        try{
+            if (inputTerm === "") throw ("Seach word cannot be empty");
+               
+            if (inputValid === false) throw ("Alphabet characters only");
+            
+            if (multipleWords >0 ) throw ("Please enter a single word");
+        } 
+        catch(err) {
+            // alert(err);
+          
+            $("#errMessage").text(err);
+        
+            console.log($("#errMessage").text());
+            alertModal.append(errMessage);
+            alertModal.show();
+            valid = false;
+
+               
+            // $("#sumbit").data("target","#myModal");
+        }
+
+        return valid;
+    }
+// .............................................................................................................
+
+$(document).on("click",'.btnClose',function(){
+    alertModal.hide();
+})
 
 });
-          // YouTube API coding//
-        //   $(document).on("click", "#submit", function(event){
-        //       event.preventDefault();
-        //       console.log('something');
-        //       var thing = $(this).attr("data");
-        //       var queryURL= "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&type=video&videoCaption=any&videoEmbeddable=true&key=AIzaSyBFdAj180yBiZ33C3-xrOPQYshWRWEyAdQ"
-          
-        //       $(".instructions").show();
-        //       $.ajax({
-        //           url: queryURL,
-        //           method: "GET" 
-          
-        //       }).done(function(response){
-        //           console.log(response);
-                  
-        //           var results = response.data;
-          
-        //           for (var i = 0; i < results.length; i++) {
-        //               //div to hold video 
-        //               var topicDiv =$("<div>"); 
-        //           }
-        //       });
-          
-        //     });
-//         });
-//     });
-// });
 

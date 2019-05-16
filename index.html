@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Project One</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/slick.css"/>
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
 </head>
@@ -19,10 +20,10 @@
         <div class="row justify-content-center">
             <div class="col">
                 <form id="myForm">
-                    <!-- <div class ="form-group" id="username-field">
+                    <div class ="form-group" id="username-field">
                         <label for="username">Username</label>
                         <input type='text' class='form-control' id="username" name="username" required></input>
-                    </div> -->
+                    </div>
                     <div class="form-group">
                         <label for="searchTerm">Search for a word!</label>
                         <input type="text" class="form-control" id="searchTerm" name="searchTerm" placeholder="For example: hatchback">
@@ -48,29 +49,21 @@
                 </div>
             </div>
         </div>
+        <div class="row justify-content-center">
+            <div class="col">
+                <div id="youtubebox">
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- modal for the alert message ----------------------------------------------------------------- -->
   <!-- Modal -->
-  <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
-  aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="modalLabel">Modal title</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div id = "modalText" class="modal-body">
-            ...
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>            
-        </div>
-        </div>
+    <div id ="alertMessage">
+        <p id= "errMessage"></p>
+        <button type = "button" class ="btnClose">Close</button>
     </div>
-</div>
+
     <!-- ............................................................................................... -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -79,6 +72,6 @@
     <script> zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
             ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9","ee6b7db5b51705a13dc2339db3edaf6d"];</script>
  
-    
+    <script src="assets/js/slick.js"></script>
 </body>
 </html>
