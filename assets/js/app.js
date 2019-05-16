@@ -11,7 +11,7 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 var dataRef = firebase.database();
-
+var valid = true;
 $(document).ready(function(){
     var word;
     
