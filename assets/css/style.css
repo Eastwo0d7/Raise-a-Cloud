@@ -19,3 +19,6 @@ html, body {
 #wordCloud svg {
     width: 90%;
 }
+#youtube-listing-wrapper {
+    height: 50vh;
+}
