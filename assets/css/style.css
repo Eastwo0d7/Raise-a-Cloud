@@ -79,6 +79,34 @@ html, body {
     top: 0;
     left: 0;
 }
+
+#alertMessage{
+  position: absolute;
+  z-index: 1;
+  display: none;
+  top :30%;
+  width: auto;
+  text-align: center;
+  border-radius: 7px;
+  margin: 0 25%;
+  padding: 0 20px;
+  background-color: rgb(223, 222, 222);
+  height: 100px;
+}
+
+.btnClose{
+  position: relative;
+  top: 65px;
+  background-color: rgb(138, 138, 224);
+  border-radius: 7px;
+  padding: 0 10px;
+}
+
+#errMessage{
+  top:10%;
+  margin: 10px 0;
+
+}
 #page-header img {
     width: 100px;
     left: 50%;
