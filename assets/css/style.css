@@ -79,3 +79,16 @@ html, body {
     top: 0;
     left: 0;
 }
+#page-header img {
+    width: 100px;
+    left: 50%;
+    margin: -50px;
+    top: 7%;
+    position: absolute;
+    z-index: -1;
+}
+#page-header {
+    position: relative;
+    height: 200px;
+    margin-top: 50px;
+}
