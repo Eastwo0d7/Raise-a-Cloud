@@ -1,3 +1,17 @@
+var firebaseConfig = {
+    apiKey: "AIzaSyBu9TX91Rn-TmSc1ggZM9jvLJ8A2V-Vxf0",
+    authDomain: "words-to-video.firebaseapp.com",
+    databaseURL: "https://words-to-video.firebaseio.com",
+    projectId: "words-to-video",
+    storageBucket: "words-to-video.appspot.com",
+    messagingSenderId: "153429453725",
+    appId: "1:153429453725:web:d087d82315e52db5"
+  };
+
+firebase.initializeApp(firebaseConfig);
+
+var dataRef = firebase.database();
+
 $(document).ready(function(){
     var word;
     
@@ -161,7 +175,11 @@ $(document).ready(function(){
         localStorage.setItem('wordCloudUser',userName);
         queryWord = $("#searchTerm").val().trim();
         queryOption = $("#wordOption").find('option:selected').data("value");
-        queryURL = "https://wordsapiv1.p.mashape.com/words/"+ queryWord + "/" + queryOption ;        
+        queryURL = "https://wordsapiv1.p.mashape.com/words/"+ queryWord + "/" + queryOption ;
+        dataRef.ref().push({
+            userName: userName,
+            queryWord: queryWord
+        });        
         $.ajax({
             url : queryURL,
             method : "GET",
