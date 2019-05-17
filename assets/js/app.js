@@ -13,6 +13,7 @@ firebase.initializeApp(firebaseConfig);
 var dataRef = firebase.database();
 var valid = true;
 var alertModal = $("#alertMessage");
+var alertMessageWrapper = $('#alertMessageWrapper');
 
 $(document).ready(function(){
     var word;
@@ -156,7 +157,7 @@ $(document).ready(function(){
                 // // console.log(videoIds[i]);
                 // youTubeWrapper.html(video);
                 // console.log(youTubeWrapper);
-                $("#youtubebox").append(youTubeWrapper);
+                $("#youtubebox").prepend(youTubeWrapper);
             }
             initSlick("#youtubebox");
         });
@@ -204,27 +205,33 @@ $(document).ready(function(){
                     }
                 }
             }).done(function(response){
-                // assign the array of words to a variable.
-                if(queryOption === "rhymes"){
-                    // words for rhymes option has a neseted  object as all
-                    results = response[queryOption].all;  
-                    wordCloudify(results);   
-                    youTubify(returnRandomWord(results));         
-                }
-                else {
-                    results = response[queryOption];
-                    // console.log(results);
+            // console.log(results);
+            // assign the array of words to a variable.
+            if(queryOption === "rhymes"){
+                // words for rhymes option has a neseted  object as all
+                results = response[queryOption].all;  
+                // console.log(results);
+                wordCloudify(results);   
+                youTubify(returnRandomWord(results));         
+            }
+            else {
+                console.log(response);
+                results = response[queryOption];
+                console.log(results.length);
+                if (results.length == 0){
+                    alert('search something different');
+                } else {
                     wordCloudify(results);
                     youTubify(returnRandomWord(results));
                 }
-            });
-            setTimeout(function(){
-                scrollTo('#youtubebox');
-            });
-        }
-
-        valid = true;
-    });
+                // console.log(returnRandomWord(results));
+            }
+        });
+        setTimeout(function(){
+            scrollTo('#youtubebox');
+        }, 1000);
+        valid = true
+    };
 
     // .............................................................................................................
     $(document).on('click','.youtube',function(){
@@ -245,9 +252,10 @@ $(document).ready(function(){
         var allowedLetters = /^[A-Za-z\s]+$/;
         var inputValid = allowedLetters.test(inputTerm);
         var multipleWords = inputTerm.indexOf(" ");
+
        
 
-     
+        // debugger;
         try{
             if (inputTerm === "") throw ("Seach word cannot be empty");
                
@@ -261,8 +269,7 @@ $(document).ready(function(){
             $("#errMessage").text(err);
         
             console.log($("#errMessage").text());
-            alertModal.append(errMessage);
-            $("#searchTerm").val("");
+            alertMessageWrapper.prepend(errMessage);
             alertModal.show();
             valid = false;
 
@@ -274,9 +281,9 @@ $(document).ready(function(){
     }
 // .............................................................................................................
 
-$(document).on("click",'.btnClose',function(){
-    alertModal.hide();
-})
+    $(document).on("click",'.btnClose',function(){
+        alertModal.hide();
+    });
 
 });
-
+});
