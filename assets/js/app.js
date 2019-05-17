@@ -97,6 +97,7 @@ $(document).ready(function(){
         });
     }
     function youTubify(searchTerm){
+        var searchTerm = queryWord;
         console.log(searchTerm);
         if ($('#youtubebox').hasClass('slick-slider')) {
             $('#youtubebox').slick('unslick');
