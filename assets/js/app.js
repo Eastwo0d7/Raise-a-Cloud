@@ -203,8 +203,7 @@ $(document).ready(function(){
                         alert('404 error!!')
                     }
                 }
-            }
-        }).done(function(response){
+            }).done(function(response){
             // console.log(results);
             // assign the array of words to a variable.
             if(queryOption === "rhymes"){
@@ -230,7 +229,7 @@ $(document).ready(function(){
         setTimeout(function(){
             scrollTo('#youtubebox');
         });
-    });
+    };
 
     // .............................................................................................................
     $(document).on('click','.youtube',function(){
@@ -253,7 +252,7 @@ $(document).ready(function(){
         var multipleWords = inputTerm.indexOf(" ");
        
 
-        debugger;
+        // debugger;
         try{
             if (inputTerm === "") throw ("Seach word cannot be empty");
                
@@ -279,9 +278,9 @@ $(document).ready(function(){
     }
 // .............................................................................................................
 
-$(document).on("click",'.btnClose',function(){
-    alertModal.hide();
-})
+    $(document).on("click",'.btnClose',function(){
+        alertModal.hide();
+    });
 
 });
-
+});
