@@ -145,3 +145,11 @@ html, body {
     height: 140px;
     margin-top: 50px;
 }
+.slick-arrow {
+    margin-bottom: 5px;
+}
+.slick-next {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
