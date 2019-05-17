@@ -108,7 +108,7 @@ $(document).ready(function(){
 
             // console.log(wordsArray[i]);
             
-        var queryURL= "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=6&type=video&videoCaption=any&videoEmbeddable=true&key=AIzaSyBFdAj180yBiZ33C3-xrOPQYshWRWEyAdQ&q=" + searchTerm
+        var queryURL= "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=6&type=video&videoCaption=any&videoEmbeddable=true&key=AIzaSyA8Ci2U7JG9zWZU8BOZYIGXbonnlgDuqyc&q=" + searchTerm
         // $(".instructions").show();
         $.ajax({
             url: queryURL,
