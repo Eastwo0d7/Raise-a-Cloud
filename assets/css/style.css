@@ -145,6 +145,7 @@ html, body {
 }
 .slick-arrow {
     margin-bottom: 5px;
+    border: 1px solid #ccc;
 }
 .slick-next {
     position: absolute;
