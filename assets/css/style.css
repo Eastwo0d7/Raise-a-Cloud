@@ -81,22 +81,32 @@ html, body {
 }
 
 #alertMessage{
-  position: absolute;
-  z-index: 1;
-  display: none;
-  top :30%;
-  width: auto;
-  text-align: center;
-  border-radius: 7px;
-  margin: 0 25%;
-  padding: 0 20px;
-  background-color: rgb(223, 222, 222);
-  height: 100px;
+    position: absolute;
+    z-index: 1;
+    display: none;
+    top: 18%;
+    width: 80%;
+    left: 50%;
+    margin-left: -40%;
+    text-align: center;
+    border-radius: 7px;
+    /* margin: 0 25%; */
+    padding: 0 20px;
+    background-color: rgb(223, 222, 222);
+    height: 200px;
+}
+#errMessageWrapper {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    left: 50%;
+    top: 50%;
+    margin-left: -25%;
+    margin-top: -40px;
 }
 
 .btnClose{
   position: relative;
-  top: 65px;
   background-color: rgb(138, 138, 224);
   border-radius: 7px;
   padding: 0 10px;
@@ -117,6 +127,6 @@ html, body {
 }
 #page-header {
     position: relative;
-    height: 200px;
+    height: 140px;
     margin-top: 50px;
 }

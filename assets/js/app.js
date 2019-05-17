@@ -13,6 +13,7 @@ firebase.initializeApp(firebaseConfig);
 var dataRef = firebase.database();
 var valid = true;
 var alertModal = $("#alertMessage");
+var alertMessageWrapper = $('#alertMessageWrapper');
 
 $(document).ready(function(){
     var word;
@@ -250,6 +251,7 @@ $(document).ready(function(){
         var allowedLetters = /^[A-Za-z\s]+$/;
         var inputValid = allowedLetters.test(inputTerm);
         var multipleWords = inputTerm.indexOf(" ");
+
        
 
         // debugger;
@@ -266,7 +268,7 @@ $(document).ready(function(){
             $("#errMessage").text(err);
         
             console.log($("#errMessage").text());
-            alertModal.append(errMessage);
+            alertMessageWrapper.prepend(errMessage);
             alertModal.show();
             valid = false;
 
