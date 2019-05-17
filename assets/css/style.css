@@ -81,7 +81,6 @@ html, body {
 }
 
 #alertMessage{
-<<<<<<< HEAD
     position: absolute;
     z-index: 1;
     display: none;
@@ -104,19 +103,17 @@ html, body {
     top: 50%;
     margin-left: -25%;
     margin-top: -40px;
-=======
-  position: absolute;
-  z-index: 1;
-  display: none;
-  top :30%;
-  width: auto;
-  text-align: center;
-  border-radius: 7px;
-  margin: 0 40%;
-  padding: 0 30px;
-  background-color: rgb(223, 222, 222);
-  height: 100px;
->>>>>>> 89bd4ee090befb0f71ee39a293e82cdf596df618
+    position: absolute;
+    z-index: 1;
+    display: none;
+    top :30%;
+    width: auto;
+    text-align: center;
+    border-radius: 7px;
+    margin: 0 40%;
+    padding: 0 30px;
+    background-color: rgb(223, 222, 222);
+    height: 100px;
 }
 
 .btnClose{
@@ -142,8 +139,9 @@ html, body {
 }
 #page-header {
     position: relative;
-    height: 140px;
+    height: 100px;
     margin-top: 50px;
+
 }
 .slick-arrow {
     margin-bottom: 5px;
@@ -152,4 +150,7 @@ html, body {
     position: absolute;
     top: 0;
     right: 0;
+}
+.slick-slide {
+    margin: 0 5px;
 }
