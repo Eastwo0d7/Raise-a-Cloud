@@ -223,6 +223,7 @@ $(document).ready(function(){
             });
         }
 
+        valid = true;
     });
 
     // .............................................................................................................
@@ -246,7 +247,7 @@ $(document).ready(function(){
         var multipleWords = inputTerm.indexOf(" ");
        
 
-        debugger;
+     
         try{
             if (inputTerm === "") throw ("Seach word cannot be empty");
                
@@ -261,6 +262,7 @@ $(document).ready(function(){
         
             console.log($("#errMessage").text());
             alertModal.append(errMessage);
+            $("#searchTerm").val("");
             alertModal.show();
             valid = false;
 
