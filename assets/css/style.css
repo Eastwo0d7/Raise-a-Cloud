@@ -81,7 +81,7 @@ html, body {
 }
 
 #alertMessage{
-    position: absolute;
+    position: fixed;
     z-index: 1;
     display: none;
     top: 18%;
@@ -101,16 +101,16 @@ html, body {
     height: 50%;
     left: 50%;
     top: 50%;
-    margin-left: -25%;
+    margin-left: -50%;
     margin-top: -40px;
     position: absolute;
     z-index: 1;
-    display: none;
+    /* display: none; */
     top :30%;
-    width: auto;
+    width: 100%;
     text-align: center;
     border-radius: 7px;
-    margin: 0 40%;
+    /* margin: 0 40%; */
     padding: 0 30px;
     background-color: rgb(223, 222, 222);
     height: 100px;
@@ -145,6 +145,7 @@ html, body {
 }
 .slick-arrow {
     margin-bottom: 5px;
+    border: 1px solid #ccc;
 }
 .slick-next {
     position: absolute;
