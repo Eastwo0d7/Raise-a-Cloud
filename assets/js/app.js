@@ -49,7 +49,18 @@ $(document).ready(function(){
     function scrollTo(target){
         var offsetTop = $(target).offset().top;
         // console.log(offsetTop);
-        $(window).scrollTop(offsetTop);
+        if (valid){
+            $(window).scrollTop(offsetTop);
+        }
+    }
+    function showModal(message){
+        $("#errMessage").text(message);
+        console.log($("#errMessage").text());
+        // alertMessageWrapper.prepend(errMessage);
+
+
+        alertModal.show();
+        valid = false;
     }
     function wordCloudify(wordsArray){
         // debugger;
@@ -201,7 +212,7 @@ $(document).ready(function(){
                 headers : {"X-Mashape-Key":apiKey},
                 statusCode : {
                     404: function(){
-                        alert('404 error!!')
+                        showModal('Sorry, there were no search results for that word');
                     }
                 }
             }).done(function(response){
@@ -219,7 +230,7 @@ $(document).ready(function(){
                 results = response[queryOption];
                 console.log(results.length);
                 if (results.length == 0){
-                    alert('search something different');
+                    showModal('Sorry, there were no results for that word.');
                 } else {
                     wordCloudify(results);
                     youTubify(returnRandomWord(results));
@@ -266,12 +277,12 @@ $(document).ready(function(){
         catch(err) {
             // alert(err);
           
-            $("#errMessage").text(err);
-        
-            console.log($("#errMessage").text());
-            alertMessageWrapper.prepend(errMessage);
-            alertModal.show();
-            valid = false;
+            // $("#errMessage").text(err);
+            showModal(err);
+            // console.log($("#errMessage").text());
+            // alertMessageWrapper.prepend(errMessage);
+            // alertModal.show();
+            // valid = false;
 
                
             // $("#sumbit").data("target","#myModal");
@@ -283,6 +294,9 @@ $(document).ready(function(){
 
     $(document).on("click",'.btnClose',function(){
         alertModal.hide();
+        valid = true;
+        $('#searchTerm').val('');
+        $('#searchTerm').focus();
     });
 
 });
